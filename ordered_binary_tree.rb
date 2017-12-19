@@ -9,84 +9,48 @@ class Node
 end
 
 class Tree
-#  attr_accessor :root
-
   def initialize
     @nodes_array=[]
-    #@root=nil
-    #@node_total=0
-    #@nodes=[]
   end
 
-  #def make_nodes(ary)
-  #  ary.each do |x|
-  #    @nodes<<Node.new(x)
-  #  end
-  #  if @root == nil
-  #     @root = @nodes[0]
-  #  end
-#  end
+  def nodes_array
+    @nodes_array
+  end
 
-#  def nodes
-  #  @nodes
-#  end
-
-def nodes_array
-  @nodes_array
-end
-
-    def make_tree(array, original=nil)
-      if array.length==1
-        return
-      end
-      if original == nil
-        original = Node.new(array[0])
-        @nodes_array<<original
-      end
-
-
-
-      node=Node.new(array[1])
-      @nodes_array<<node
-    if node.value < original.value && original.left ==nil
-      original.left =node
-      node.parent=original
-      array.shift
-      make_tree(array, original)
-    elsif node.value >original.value && original.right ==nil
-      original.right= node
-      node.parent= original
-      array.shift
-      make_tree(array, original)
-    elsif node.value< original.value  && original.left !=nil
-      @nodes_array.pop
-      make_tree(array, original.left)
-    elsif node.value > original.value && original.right !=nil
-      @nodes_array.pop
-      make_tree(array, original.right)
+  def elements(array)
+   @root= Node.new(array[0])
+   @nodes_array<<@root
+   array.shift
+   array.each do |value|
+      make_tree(value, @root)
     end
   end
 
 
+  def make_tree(value, original)
+    if value <= original.value && original.left == nil
+      original.left =node=Node.new(value)
+      node.parent=original
+      @nodes_array<<node
+    elsif value > original.value && original.right == nil
+      original.right= node=Node.new(value)
+      node.parent= original
+      @nodes_array<<node
+    elsif value <= original.value && original.left != nil
+      make_tree(value, original.left)
+    elsif value > original.value && original.right != nil
+      make_tree(value, original.right)
+    end
   end
 
-  tree=Tree.new
+end
 
-  tree.make_tree([1, 2, 3, 4, 5])
-   tree.nodes_array
+tree=Tree.new
+tree.elements([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 
 
-  puts "NODES"
+puts "NODES"
 tree.nodes_array.each do |x|
-    puts ""
-    puts "node"
-  puts x
-  puts "value"
-  puts x.value
-  puts "parent"
-  puts x.parent
-  puts "right"
-  puts x.right
-  puts "left"
-  puts x.left
+print "Node #{x}, Value #{x.value}, Right #{x.right}, Left #{x.left}"
+puts ""
 end
