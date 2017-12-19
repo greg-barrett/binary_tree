@@ -9,66 +9,75 @@ class Node
 end
 
 class Tree
-  attr_accessor :root
+#  attr_accessor :root
+
   def initialize
-    @root=nil
-    @node_total=0
-    @nodes=[]
+    @nodes_array=[]
+    #@root=nil
+    #@node_total=0
+    #@nodes=[]
   end
 
-  def make_nodes(ary)
-    ary.each do |x|
-      @nodes<<Node.new(x)
-    end
-    if @root == nil
-       @root = @nodes[0]
-    end
-  end
+  #def make_nodes(ary)
+  #  ary.each do |x|
+  #    @nodes<<Node.new(x)
+  #  end
+  #  if @root == nil
+  #     @root = @nodes[0]
+  #  end
+#  end
 
-  def nodes
-    @nodes
-  end
+#  def nodes
+  #  @nodes
+#  end
 
-    def make_tree
-      i=1
-      current=@root
+def nodes_array
+  @nodes_array
+end
 
-      @nodes.length-1.times do
-
-        node=@nodes[i]
-        i+=1
-      while node.parent==nil
-        if node.value < current.value
-          if current.left == nil
-            current.left = node
-            node.parent= current
-
-            break if node.parent != nil
-          else
-            current=current.left
-          end
-        else
-          if current.right ==nil
-            current.right = node
-            node.parent = current
-
-            break if node.parent !=nil
-          else
-            current=current.right
-          end
-        end
+    def make_tree(array, original=nil)
+      if array.length==1
+        return
       end
+      if original == nil
+        original = Node.new(array[0])
+        @nodes_array<<original
+      end
+
+
+
+      node=Node.new(array[1])
+      @nodes_array<<node
+    if node.value < original.value && original.left ==nil
+      original.left =node
+      node.parent=original
+      array.shift
+      make_tree(array, original)
+    elsif node.value >original.value && original.right ==nil
+      original.right= node
+      node.parent= original
+      array.shift
+      make_tree(array, original)
+    elsif node.value< original.value  && original.left !=nil
+      @nodes_array.pop
+      make_tree(array, original.left)
+    elsif node.value > original.value && original.right !=nil
+      @nodes_array.pop
+      make_tree(array, original.right)
     end
   end
+
 
   end
 
   tree=Tree.new
-  tree.make_nodes([3, 2, 4, 5, 1])
-  tree.make_tree
+
+  tree.make_tree([1, 2, 3, 4, 5])
+   tree.nodes_array
+
 
   puts "NODES"
-  tree.nodes.each do |x|
+tree.nodes_array.each do |x|
     puts ""
     puts "node"
   puts x
