@@ -44,34 +44,15 @@ class Tree
   end
 
   def bfs(n, root)
-    queue=[]
-    queue<<root
-
-
+    queue=[]<<root
     until queue.length==0
       root=queue[0]
-      queue.each do |x|
-        puts x.value
-      end
-      puts ""
-    if root.left != nil
-      queue<<root.left
+      queue<<root.left if root.left != nil
+      queue<<root.right  if root.right != nil
+      queue.shift if root.value !=n
+      return puts "bingo #{root}" if root.value ==n
     end
-    if root.right != nil
-      queue<<root.right
-    end
-    if root.value ==n
-      puts "bingo"
-      puts queue[0]
-      return queue[0]
-    else
-      queue.shift
-    end
-  end
-  if queue.length==0
     puts "nil"
-    return nil
-  end
   end
 
 end
@@ -88,4 +69,4 @@ end
 root=tree.nodes_array[0]
 
 
-tree.bfs(55, root)
+tree.bfs(89, root)
