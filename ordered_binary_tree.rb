@@ -43,14 +43,49 @@ class Tree
     end
   end
 
+  def bfs(n, root)
+    queue=[]
+    queue<<root
+
+
+    until queue.length==0
+      root=queue[0]
+      queue.each do |x|
+        puts x.value
+      end
+      puts ""
+    if root.left != nil
+      queue<<root.left
+    end
+    if root.right != nil
+      queue<<root.right
+    end
+    if root.value ==n
+      puts "bingo"
+      puts queue[0]
+      return queue[0]
+    else
+      queue.shift
+    end
+  end
+  if queue.length==0
+    puts "nil"
+    return nil
+  end
+  end
+
 end
 
 tree=Tree.new
-tree.elements([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+tree.elements([13, 5, 34, 3, 8, 21, 55, 1, 0, 2, 144, 89, 233])
 
 
 puts "NODES"
 tree.nodes_array.each do |x|
-print "Node #{x}, Value #{x.value}, Right #{x.right}, Left #{x.left}"
+print "Node #{x}, Value #{x.value}, Right #{x.right}, Left #{x.left}, Parent #{x.parent}"
 puts ""
 end
+root=tree.nodes_array[0]
+
+
+tree.bfs(55, root)
